@@ -61,6 +61,7 @@ RUN set -exu \
   && wget https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/gnome-remote-desktop/46.3-0ubuntu1/gnome-remote-desktop_46.3-0ubuntu1.debian.tar.xz --output-document=/grd-build/gnome-remote-desktop_46.3-0ubuntu1.debian.tar.xz \
   && tar xvf gnome-remote-desktop_46.3.orig.tar.xz \
   && tar xvf gnome-remote-desktop_46.3-0ubuntu1.debian.tar.xz \
+  && ln -s gnome-remote-desktop_46.3.orig.tar.xz gnome-remote-desktop_46.3-1-kubevda.orig.tar.xz \
   && mv debian gnome-remote-desktop-46.3/ \
   && cd gnome-remote-desktop-46.3/ \
   && for patch in /grd-build/patches/*.patch; do \
