@@ -1,0 +1,37 @@
+From 1d8ef19b527c42f0a6d13ea92269960d1a6ad8c0 Mon Sep 17 00:00:00 2001
+From: Edwin Pers <pers.edwin@gmail.com>
+Date: Fri, 9 May 2025 03:18:55 -0400
+Subject: [PATCH] patch to enable vnc
+
+---
+ debian/control | 1 +
+ debian/rules   | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/debian/control b/debian/control
+index b052561..bcbc8d3 100644
+--- a/debian/control
++++ b/debian/control
+@@ -32,6 +32,7 @@ Build-Depends: asciidoc-base,
+                libtss2-dev,
+                libva-dev,
+                libvulkan-dev (>= 1.2.0),
++               libvncserver-dev,
+                libxkbcommon-dev (>= 1.0.0),
+                meson (>= 0.47.0),
+                mutter (>= 48~beta) <!nocheck>,
+diff --git a/debian/rules b/debian/rules
+index f72b00c..dd74651 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -13,6 +13,7 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,-O1 -Wl,-z,defs
+ override_dh_auto_configure:
+ 	dh_auto_configure -- \
+ 		-Dfdk_aac=false \
++		-Dvnc=true \
+ 		-Dtests=$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),false,true)
+ 
+ # We manually handle tmpfiles & sysusers in postinst
+-- 
+2.39.5
+
