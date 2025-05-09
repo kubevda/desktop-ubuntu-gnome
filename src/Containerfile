@@ -1,0 +1,68 @@
+FROM docker.io/debian:trixie-slim
+
+RUN set -exu \
+  && export DEBIAN_FRONTEND=noninteractive \
+  && sed -i 's/Components: main/Components: main contrib non-free/g' \
+      /etc/apt/sources.list.d/debian.sources \
+  && apt-get -yq update \
+  && apt-get -yq dist-upgrade \
+  && apt-get -yq install \
+    --no-install-recommends \
+      alsa-utils \
+      bind9-dnsutils \
+      ca-certificates \
+      coreutils \
+      curl \
+      dbus \
+      dbus-x11 \
+      expect-dev \
+      fastfetch \
+      firefox-esr \
+      gettext-base \
+      gnome-remote-desktop \
+      iproute2 \
+      iputils-ping \
+      jq \
+      libgl1-mesa-dri \
+      locales \
+      mesa-utils \
+      mingetty \
+      nano \
+      net-tools \
+      openssl \
+      paprefs \
+      pavucontrol \
+      pulseaudio \
+      socat \
+      sudo \
+      supervisor \
+      tigervnc-standalone-server \
+      tzdata \
+      udev \
+      vim \
+      wget \
+      xwayland \
+      xwayland-run \
+      xwaylandvideobridge \
+      xz-utils \
+      yq
+
+RUN set -exu \
+  && wget -O "/usr/share/keyrings/xpra.asc" https://xpra.org/xpra.asc \
+  && wget -O "/etc/apt/sources.list.d/xpra.sources" \
+      https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/trixie/xpra-beta.sources \
+  && apt-get -yq update \
+  && apt-get -yq install \
+      --no-install-recommends \
+        xpra
+
+RUN set -exu \
+  && apt-get -yq clean
+
+RUN set -exu \
+  && mkdir -pv /var/log/supervisor \
+  && chmod 777 /var/log/supervisor
+
+COPY rootfs /
+
+CMD ["/bin/bash", "/entrypoint.sh"]
